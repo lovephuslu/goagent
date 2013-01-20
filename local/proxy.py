@@ -798,7 +798,7 @@ class Common(object):
 
         if self.PROXY_ENABLE:
             self.GOOGLE_MODE = 'https'
-        random.shuffle(self.GAE_APPIDS)
+        #random.shuffle(self.GAE_APPIDS)
         self.GAE_FETCHSERVER = '%s://%s.appspot.com%s?' % (self.GOOGLE_MODE, self.GAE_APPIDS[0], self.GAE_PATH)
 
     def info(self):
@@ -1214,6 +1214,8 @@ class GAEProxyHandler(object):
                 common.GAE_FETCHSERVER = '%s://%s.appspot.com%s?' % (common.GOOGLE_MODE, common.GAE_APPIDS[0], common.GAE_PATH)
                 http.dns[urlparse.urlparse(common.GAE_FETCHSERVER).netloc] = common.GOOGLE_HOSTS
                 logging.info('APPID Over Quota,Auto Switch to [%s]' % (common.GAE_APPIDS[0]))
+                self.handle_method_urlfetch()
+                return
             # bad request, disable CRLF injection
             if response.app_status in (400, 405):
                 http.crlf = 0
